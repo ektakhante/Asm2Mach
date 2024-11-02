@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "parser.h": "c",
+        "instruction.h": "c",
+        "opcode_lookup.h": "c",
+        "utils.h": "c",
+        "error_handling.h": "c"
+    }
+}
