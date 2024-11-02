@@ -65,12 +65,3 @@ This project is licensed under the MIT License. See the LICENSE file for more in
 
 ## Acknowledgements
 - Thanks to the contributors and the community for support and inspiration.
-```
-
-### Customization
-- **Project Features**: Adjust the features section based on what your project includes.
-- **Installation and Usage**: Update these sections based on how users should set up and run your converter.
-- **Error Handling**: You can add more specific error messages based on your implementation.
-- **Contributing and License**: Modify these sections based on how you want to manage contributions and the licensing for your project.
-
-This README serves as a solid foundation for your project, providing essential information for users and developers alike!
