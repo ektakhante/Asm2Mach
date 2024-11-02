@@ -1,7 +1,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/ShingareOm/Asm2Mach?style=flat-square)](https://github.com/ShingareOm/Asm2Mach/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/ShingareOm/Asm2Mach?style=flat-square)](https://github.com/ShingareOm/Asm2Mach/network)
 [![GitHub issues](https://img.shields.io/github/issues/ShingareOm/Asm2Mach?style=flat-square)](https://github.com/ShingareOm/Asm2Mach/issues)
-[![GitHub license](https://img.shields.io/github/license/ShingareOm/Asm2Mach?style=flat-square)](https://github.com/ShingareOm/Asm2Mach/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/ShingareOm/Asm2Mach?style=flat-square)](https://github.com/ShingareOm/Asm2Mach/blob/master/LICENSE)
 
 # Asm2Mach: Assembly to Machine Code Converter
 
