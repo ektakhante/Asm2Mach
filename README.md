@@ -74,11 +74,6 @@ To build the project, follow these steps:
    make run
    ```
 
-5. After the build completes successfully, you can run the assembler simulator:
-   ```
-   ./bin/asm_simulator <your_assembly_file.asm>
-   ```
-
 ## Requirements
 - **gcc**: The C compiler used for building the project.
 - **make**: A tool to automate the build process.
