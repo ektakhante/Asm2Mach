@@ -12,11 +12,10 @@ int main()
 
     initQueue(&queue);
 
-    // Get ASM file name
     printf("Enter the ASM file name: ");
     scanf("%s", filename);
 
-    // Open the file
+
     asmFile = fopen(filename, "r");
     if (asmFile == NULL)
     {
@@ -24,22 +23,21 @@ int main()
         return 1;
     }
 
-    // Process labels and enqueue instructions
+
     processLabels(asmFile, &queue);
 
-    // Process data directives
+
     processDataDirectives(asmFile);
 
     fclose(asmFile);
 
-    // Display the current queue after processing labels
+
     printf("\nCurrent Queue after processing labels:\n");
     displayQueue(&queue);
 
-    // Display data segment
+    
     displayDataSegment();
 
-    // Process each instruction in the queue
     printf("\nProcessing Instructions:\n");
     while (!isQueueEmpty(&queue))
     {

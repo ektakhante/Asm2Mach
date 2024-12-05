@@ -12,7 +12,6 @@ char *fetchOpcode(const char *mnemonic)
     return NULL;
 }
 
-// Resolve the label to its address
 int resolveLabel(const char *label)
 {
     for (int i = 0; i < symbolTableSize; i++)
@@ -22,16 +21,14 @@ int resolveLabel(const char *label)
             return symbolTable[i].address;
         }
     }
-    return -1; // Label not found
+    return -1;
 }
 
-// Convert an instruction to opcode
 void convertInstructionToOpcode(const char *instruction)
 {
     char mnemonic[10], operand1[10], operand2[10];
     int numOperands = sscanf(instruction, "%s %[^,], %s", mnemonic, operand1, operand2);
 
-    // Fetch opcode for the mnemonic
     char *opcode = fetchOpcode(mnemonic);
     if (opcode == NULL)
     {
@@ -39,7 +36,6 @@ void convertInstructionToOpcode(const char *instruction)
         return;
     }
 
-    // Resolve the label if it's a jump instruction
     if (strcmp(mnemonic, "JMP") == 0)
     {
         int labelAddress = resolveLabel(operand1);
@@ -65,33 +61,28 @@ void convertInstructionToOpcode(const char *instruction)
     }
 }
 
-// Process the labels and instructions
 void processLabels(FILE *asmFile, InstructionQueue *queue)
 {
     char buffer[MAX_INSTRUCTION_LEN];
     int address = 0;
 
-    // Read instructions from the ASM file and process labels
     while (fgets(buffer, MAX_INSTRUCTION_LEN, asmFile))
     {
-        // Remove newline character
+
         buffer[strcspn(buffer, "\n")] = 0;
 
-        // Remove comments from the line
         removeComments(buffer);
 
-        // If the line is empty after removing comments, skip it
         if (strlen(buffer) == 0)
         {
             continue;
         }
 
-        // Check for labels (e.g., LOOP:)
         if (strchr(buffer, ':'))
         {
             char label[20];
             sscanf(buffer, "%s", label);
-            label[strlen(label) - 1] = 0; // Remove the colon
+            label[strlen(label) - 1] = 0;
             symbolTable[symbolTableSize].address = address;
             strcpy(symbolTable[symbolTableSize].label, label);
             symbolTableSize++;
@@ -99,7 +90,7 @@ void processLabels(FILE *asmFile, InstructionQueue *queue)
         }
         else
         {
-            // Enqueue instruction
+
             enqueue(queue, buffer);
         }
 
@@ -107,29 +98,24 @@ void processLabels(FILE *asmFile, InstructionQueue *queue)
     }
 }
 
-// Process data directives (DB, DW, RESB, RESW)
 void processDataDirectives(FILE *asmFile)
 {
     char buffer[MAX_INSTRUCTION_LEN];
 
-    // Reset data segment size
     dataSegmentSize = 0;
 
     while (fgets(buffer, MAX_INSTRUCTION_LEN, asmFile))
     {
-        // Remove newline character
+
         buffer[strcspn(buffer, "\n")] = 0;
 
-        // Remove comments from the line
         removeComments(buffer);
 
-        // If the line is empty after removing comments, skip it
         if (strlen(buffer) == 0)
         {
             continue;
         }
 
-        // Check for data directives
         if (strstr(buffer, "DB") != NULL)
         {
             unsigned char value;
@@ -163,22 +149,20 @@ void processDataDirectives(FILE *asmFile)
         {
             int wordsToReserve;
             sscanf(buffer + 4, "%d", &wordsToReserve);
-            dataSegmentSize += wordsToReserve * 2; // Each word is 2 bytes
+            dataSegmentSize += wordsToReserve * 2;
         }
     }
 }
 
-// Remove comments from a line
 void removeComments(char *line)
 {
     char *commentStart = strchr(line, ';');
     if (commentStart != NULL)
     {
-        *commentStart = '\0'; // Remove the comment part of the line
+        *commentStart = '\0';
     }
 }
 
-// Display the instruction queue
 void displayQueue(InstructionQueue *queue)
 {
     printf("Instruction Queue:\n");
@@ -188,7 +172,6 @@ void displayQueue(InstructionQueue *queue)
     }
 }
 
-// Display the data segment
 void displayDataSegment()
 {
     printf("\nData Segment:\n");

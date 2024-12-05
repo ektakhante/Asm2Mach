@@ -1,24 +1,20 @@
 
-// Initialize the queue
 void initQueue(InstructionQueue *queue)
 {
     queue->front = 0;
     queue->rear = 0;
 }
 
-// Check if the queue is empty
 int isQueueEmpty(InstructionQueue *queue)
 {
     return queue->front == queue->rear;
 }
 
-// Check if the queue is full
 int isQueueFull(InstructionQueue *queue)
 {
     return (queue->rear + 1) % MAX_QUEUE_SIZE == queue->front;
 }
 
-// Add instruction to the queue
 void enqueue(InstructionQueue *queue, const char *instruction)
 {
     if (isQueueFull(queue))
@@ -30,7 +26,6 @@ void enqueue(InstructionQueue *queue, const char *instruction)
     queue->rear = (queue->rear + 1) % MAX_QUEUE_SIZE;
 }
 
-// Remove instruction from the queue
 char *dequeue(InstructionQueue *queue)
 {
     if (isQueueEmpty(queue))
