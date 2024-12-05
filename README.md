@@ -1,4 +1,4 @@
-# Assembler Project
+# Asm2mach Project
 
 This is an assembler that reads assembly code and converts it into machine code for a theoretical processor. The project supports instruction processing, symbol table management, and data segment handling. It features:
 
@@ -9,7 +9,8 @@ This is an assembler that reads assembly code and converts it into machine code 
 ## Usage
 
 1. Compile the project with `make`.
-2. Run the assembler with your assembly code file:
+2. then use `make run` to execute the binary
+3. there you go
 
 ```bash
 ./assembler input.asm
