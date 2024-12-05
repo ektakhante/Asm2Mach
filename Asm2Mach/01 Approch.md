@@ -1,110 +1,111 @@
-Sure! Here’s a detailed flow of your project along with a corresponding system diagram. This flow outlines the key steps involved in converting 8086 assembly code to machine code.
+### **Asm2Mach Project Workflow**
 
-### Project Flow
+The workflow of your **Assembler Simulator** project follows a series of steps to take assembly code and convert it into machine code (or opcode). Below is an outline of how the project works:
 
-1. **Input Assembly Code**:
-   - Read assembly code from a file or user input.
-   - Store the code in a suitable data structure (like an array or linked list).
+---
 
-2. **Parsing the Code**:
-   - Tokenize the input into individual instructions using a parser.
-   - Identify mnemonics, operands, labels, and comments.
+### **1. Input Assembly Code**  
+- **Step 1.1**: The user provides an assembly code file (e.g., `test.asm`) stored in the `data` directory.
+  - The assembly code contains instructions in human-readable format like `MOV`, `ADD`, labels, and data declarations.
 
-3. **Symbol Table Creation**:
-   - Create a symbol table to store labels and their corresponding addresses for easy reference.
-   - If labels are found during parsing, add them to the symbol table.
+---
 
-4. **Opcode Lookup**:
-   - For each parsed instruction, look up its corresponding opcode using a hash table or a predefined array.
-   - Handle different addressing modes as necessary.
+### **2. Preprocessing (Reading and Tokenizing)**
+- **Step 2.1**: The assembler reads the provided assembly code.
+  - The program first checks the `test.asm` file and processes each line.
+  - Comments, whitespace, and unnecessary characters are removed (preprocessing).
+  
+- **Step 2.2**: The code is tokenized into meaningful parts (keywords, labels, operands, instructions).
+  - Instructions are split into their basic parts (e.g., `MOV`, `AX`, `BX`).
+  - Labels are identified (e.g., `LOOP:`) to be resolved later.
 
-5. **Instruction Encoding**:
-   - Encode the instruction into machine code format based on the identified opcode and operands.
-   - Handle data types, immediate values, and addressing modes during this process.
+---
 
-6. **Output Machine Code**:
-   - Store the resulting machine code in a suitable format (binary or hexadecimal).
-   - Write the output to a file or display it to the user.
+### **3. Label Resolution (Using Symbol Table)**
+- **Step 3.1**: As the assembler processes the instructions, it builds a **Symbol Table**.
+  - **Symbol Table** stores the locations of labels, where each label points to a memory address in the code.
+  - Example: `LOOP: 0x100` means the label `LOOP` will be replaced by memory address `0x100`.
 
-7. **Error Handling**:
-   - Implement error checking for invalid instructions, undefined labels, and syntax errors.
-   - Provide meaningful error messages to guide the user.
+- **Step 3.2**: The assembler scans the code again to resolve labels.
+  - For any instruction that references a label, it looks up the symbol table to get the correct memory address and replaces the label with the address.
 
-8. **Testing and Validation**:
-   - Test the converter with various assembly code snippets to ensure accuracy.
-   - Validate outputs against expected machine code.
+---
 
-### System Diagram
+### **4. Opcode Generation (Using Opcode Table)**
+- **Step 4.1**: The assembler translates human-readable instructions into machine-readable opcodes.
+  - **Opcode Table** (Hash Map or Array) is used to map assembly instructions like `MOV`, `ADD`, `JMP` to their respective opcodes (e.g., `0x89`, `0x01`, `0xE9`).
+  
+- **Step 4.2**: For each instruction, the assembler looks up the opcode in the **Opcode Table** and replaces the instruction with its corresponding opcode.
+  - Example: `MOV AX, BX` might be replaced with `0x89, 0xD8`.
 
-Here's a conceptual diagram representing the flow of your project:
+---
 
+### **5. Data Segmentation and Processing (Data Section Management)**
+- **Step 5.1**: The assembler processes any data declarations in the assembly code (e.g., `.data` section).
+  - The **Data Segment** is populated with variables or constants declared in the assembly code.
+  - This includes storing values like integers, strings, or labels.
+
+- **Step 5.2**: The program keeps track of the data using either **Arrays** or **Structs** to store data values and manage memory.
+  - It ensures that the data section is properly assigned memory addresses.
+
+---
+
+### **6. Final Machine Code Output (Binary/Opcode)**
+- **Step 6.1**: After processing all instructions, the assembler writes the final machine code (binary or opcodes) into a file (e.g., `asm_simulator.out` in the `bin` folder).
+  - The output contains a sequence of opcodes that can be executed on the target architecture (like 8086 or other microprocessors).
+
+- **Step 6.2**: The output file is ready for execution or further processing.
+
+---
+
+### **7. Debugging and Error Handling**
+- **Step 7.1**: During the entire process, the assembler checks for errors in the assembly code, such as:
+  - Undefined labels
+  - Incorrect opcode usage
+  - Misformatted instructions
+  
+- **Step 7.2**: Errors are displayed to the user, guiding them to fix the issues in the input assembly code.
+
+---
+
+### **8. Optional Enhancements**
+- **Step 8.1**: The assembler could include features like:
+  - **Optimization**: Removing unnecessary instructions or using shorter opcodes.
+  - **Multi-pass assembling**: First pass to collect labels and second pass to generate opcodes.
+  - **Cross-referencing**: To validate instruction correctness against available opcodes.
+
+---
+
+### **Diagram of the Workflow:**
 ```
- +-------------------------+
- |   Input Assembly Code   |
- |    (File or User)      |
- +-------------------------+
-            |
-            v
- +-------------------------+
- |       Parser            |
- |  (Tokenize & Identify)  |
- +-------------------------+
-            |
-            v
- +-------------------------+
- |   Symbol Table          |
- |  (Store Labels & Addr.) |
- +-------------------------+
-            |
-            v
- +-------------------------+
- |   Opcode Lookup         |
- | (Find Opcode in Table)  |
- +-------------------------+
-            |
-            v
- +-------------------------+
- |   Instruction Encoding   |
- | (Convert to Machine Code)|
- +-------------------------+
-            |
-            v
- +-------------------------+
- |   Output Machine Code    |
- | (File or Console Output) |
- +-------------------------+
-            |
-            v
- +-------------------------+
- |   Error Handling         |
- | (Report Issues & Errors) |
- +-------------------------+
-            |
-            v
- +-------------------------+
- |   Testing & Validation   |
- | (Check Against Expected) |
- +-------------------------+
+Assembly Code (test.asm)
+        |
+        v
+   Preprocessing (Tokenizing & Cleaning)
+        |
+        v
+   Label Resolution (Symbol Table)
+        |
+        v
+   Opcode Generation (Opcode Table)
+        |
+        v
+   Data Segmentation (Data Section Management)
+        |
+        v
+   Final Machine Code (Output to bin/asm_simulator)
+        |
+        v
+   Error Handling (If needed)
 ```
 
-### Description of Each Component
+---
 
-1. **Input Assembly Code**: The entry point for the project, where the assembly code is received for processing.
-
-2. **Parser**: This component takes the raw assembly code and breaks it down into manageable tokens, identifying mnemonics and operands.
-
-3. **Symbol Table**: A structure that holds labels and their addresses, allowing for easy access when resolving references.
-
-4. **Opcode Lookup**: A mechanism (like a hash table) that quickly finds the corresponding opcode for each mnemonic.
-
-5. **Instruction Encoding**: The process of converting parsed instructions into machine code, taking into account various factors like addressing modes and data types.
-
-6. **Output Machine Code**: The final stage where the generated machine code is outputted to the user or saved to a file.
-
-7. **Error Handling**: A crucial aspect of the program that checks for common issues and provides feedback to the user.
-
-8. **Testing & Validation**: Ensures that the converter works correctly by comparing outputs with expected results.
-
-### Summary
-
-This flow and diagram provide a clear roadmap for your project, helping you stay organized and focused as you develop your assembly to machine code converter. Each component is interconnected, creating a structured approach to tackle the problem effectively.
+### **Project Workflow Summary:**
+1. **Input**: Assembly code is provided.
+2. **Preprocessing**: Code is cleaned and tokenized.
+3. **Label Resolution**: Labels are mapped to memory locations via the symbol table.
+4. **Opcode Generation**: Assembly instructions are translated to opcodes using the opcode table.
+5. **Data Processing**: Data declarations are handled and stored.
+6. **Output**: Final machine code is generated.
+7. **Error Handling**: Ensures the program runs smoothly and reports issues if any.
