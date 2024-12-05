@@ -1,0 +1,2 @@
+MOV AX,BX
+MOV BX,AX

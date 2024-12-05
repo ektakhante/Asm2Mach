@@ -1,39 +1,40 @@
-# Compiler
+# Compiler and Flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Iinclude
+CFLAGS = -Wall -g -Iinclude
+LDFLAGS =
 
 # Directories
 SRC_DIR = src
 OBJ_DIR = obj
-BUILD_DIR = build
+BIN_DIR = bin
+INCLUDE_DIR = include
 
-# Source files
-SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
-
-# Object files
-OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
+# Source Files
+SRC = $(SRC_DIR)/main.c
+OBJ = $(OBJ_DIR)/main.o
 
 # Executable
-MAIN_EXEC = $(BUILD_DIR)/assembler
+EXEC = $(BIN_DIR)/asm2mach
 
-# Default target
-all: $(MAIN_EXEC)
+# Targets
+all: $(EXEC)
 
-# Rule to compile the main program
-$(MAIN_EXEC): $(OBJ_FILES)
-	$(CC) -o $@ $^
+# Rule to link the object files into the executable
+$(EXEC): $(OBJ)
+	@mkdir -p $(BIN_DIR)  # Ensure bin directory exists
+	$(CC) $(OBJ) -o $(EXEC) $(LDFLAGS)
 
-# Compile source files to object files
+# Rule to compile the source file to an object file
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)  # Create object directory if it doesn't exist
+	@mkdir -p $(OBJ_DIR)  # Ensure obj directory exists
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean up build files
+# Clean up object files and the executable
 clean:
-	rm -rf $(OBJ_DIR)/*.o $(MAIN_EXEC)
+	rm -rf $(OBJ_DIR)/*.o $(EXEC)
 
-# Run the main program
 run: $(MAIN_EXEC)
-	@read -p "Enter assembly file: " file; ./$(MAIN_EXEC) $$file
+	./$(EXEC)
 
-.PHONY: all clean run
+# Phony targets
+.PHONY: all clean
